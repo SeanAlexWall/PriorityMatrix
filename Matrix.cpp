@@ -16,6 +16,8 @@ void Matrix::addTask(){
     time_t rawtime;
     tm* timeinfo;
     time_t inDueDate;
+    int priority;
+    int index;
     
     //Gather info
     cin.get();
@@ -49,9 +51,29 @@ void Matrix::addTask(){
     Task newTask(inName, inDescription, inTimeframe, inDueDate);
     //add to vector;
     //TODO: binarysort
+    priority = newTask.getPriority();
+    index = binarySearch(priority, 0, tasks.size());
     //TODO: Insertion based on binary sort
-    tasks.push_back(newTask);
+    cout << "found index" << endl;
+    tasks.insert(tasks.begin() + index, newTask);
     
+}
+
+int Matrix::binarySearch(int key, int left, int right){
+    int middle = (left + right)/2;
+
+    if(left == right){
+        return left;
+    }
+    if(key < tasks[middle].getPriority()){
+        return binarySearch(key, left, middle);
+    }
+    else if(key > tasks[middle].getPriority()){
+        return binarySearch(key, middle, right);
+    }
+    else {
+        return middle;
+    }
 }
 
 void Matrix::deleteTask(){

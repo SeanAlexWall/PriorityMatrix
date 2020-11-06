@@ -9,7 +9,7 @@ private:
   //Member Variables
     vector<Task> tasks;
   //Member Functions
-    //No private member functions
+    int binarySearch(int, int, int);
 public:
   //Member Variables
     //No public member variables
