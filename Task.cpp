@@ -14,8 +14,35 @@ Task::Task(string inName, string inDescription, Timeframe inTimeframe, time_t in
 
 //accessors
 int Task::getPriority(){ return priority; }
-void Task::display(){
 
+void Task::display(){
+    tm* due = localtime(&dueDate);
+    string string_timeframe;
+    switch(timeframe){
+        case five_minutes:
+            string_timeframe = "five minutes";
+            break;
+        case thirty_minutes:
+            string_timeframe = "thirty minutes";
+            break;
+        case hours:
+            string_timeframe = "an hour/hours";
+            break;
+        case days:
+            string_timeframe = "a day/days";
+            break;
+        default:
+            string_timeframe = "ERROR";
+            break;
+    }
+    cout << "******************" << endl;
+    cout << "Name: " << name << endl;
+    cout << "Description: " << description << endl;
+    cout << "Due Date: " <<  due->tm_mon + 1 << "/" << due->tm_mday << "/" << due->tm_year + 1900 << endl;
+    cout << "Timeframe: "  << string_timeframe << endl;
+    cout << "******************" << endl;
+    cout << "Priority: " << priority << endl;
+    cout << endl;
 }
 
 //mutators

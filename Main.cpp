@@ -11,18 +11,18 @@
 #include "Matrix.h"
 
 using namespace std;
-void mainMenu();
+void mainMenu(Matrix*);
 
 int main(){
     Matrix matrix;
     
-    mainMenu();
+    mainMenu(&matrix);
 
 
     return 0;
 }
 
-void mainMenu(){
+void mainMenu(Matrix* matrix){
     char inputChar;
     do{    
         cout << "******************************" << endl;
@@ -41,25 +41,30 @@ void mainMenu(){
         switch(inputChar){
             case 'S':
             case 's':
+                matrix->showTasks();
                 break;
             case 'A':
             case 'a':
+                matrix->addTask();
                 break;
             case 'D':
             case 'd':
+                matrix->deleteTask();
                 break;
             case 'E':
             case 'e':
-                break;
-            case 'B':
-            case 'b':
+                matrix->editTask();
                 break;
             case 'C':
             case 'c':
+                matrix->completeTask();
+                break;
+            case 'Q':
+            case 'q':
                 break;
             default:
                 cout << "Not a valid option" << endl;
                 break;
         }
-    }while(inputChar != 'q' || inputChar != 'Q');
+    }while(inputChar != 'q' && inputChar != 'Q');
 }

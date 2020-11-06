@@ -27,5 +27,5 @@ public:
       void deleteTask();
       void completeTask();
       void editTask();
-      void displayTasks();
+      void showTasks();
 };
