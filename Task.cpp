@@ -45,6 +45,21 @@ void Task::display(){
     cout << endl;
 }
 
+string Task::toString(){
+    string outputString = "";
+
+    outputString += name;
+    outputString += ",";
+    outputString += description;
+    outputString += ",";
+    outputString += to_string(timeframe);
+    outputString += ",";
+    outputString += to_string(dueDate);
+    outputString += ",";
+
+    return outputString;
+}
+
 //mutators
 void Task::setName(string inName){name = inName;}
 void Task::setDescription(string inDescription){description = inDescription;}

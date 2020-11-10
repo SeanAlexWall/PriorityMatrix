@@ -26,6 +26,7 @@ public:
     //Accessors
       int getPriority();
       void display();
+      string toString();
     //Mutators
       void setDueDate(time_t inDueDate);
       void setName(string inName);

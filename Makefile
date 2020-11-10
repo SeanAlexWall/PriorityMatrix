@@ -11,4 +11,4 @@ task.o: Task.cpp Task.h utility.h
 	c++ -c Task.cpp
 
 clean:
-	rm -i *.o matrix
+	rm -i *.o matrix tasks.sav

@@ -10,6 +10,8 @@ private:
     vector<Task> tasks;
   //Member Functions
     int binarySearch(int, int, int);
+    void saveToFile();
+    int intbuilder(string);
 public:
   //Member Variables
     //No public member variables
