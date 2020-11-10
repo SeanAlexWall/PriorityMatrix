@@ -14,6 +14,7 @@ Matrix::Matrix(){
     int infoNum = 0;
     if(inFile.is_open()){
         while(getline(inFile, line)){
+            cout << line << endl;
             for(int i = 0; i < line.length(); i++){
 
                 if(line[i] == ','){
@@ -28,15 +29,14 @@ Matrix::Matrix(){
             infoNum = 0;
             //Create new task;
             time_t newTime = intbuilder(taskInfo[3]);
+            cout << "Before new task" << endl;
             Task newTask(taskInfo[0], taskInfo[1], (Timeframe)((char)taskInfo[2][0] - '0'), newTime);
             //add to vector;
-            int priority = newTask.getPriority();
-            int index = binarySearch(priority, 0, tasks.size());
-            //Insertion based on binary sort
-            tasks.insert(tasks.begin() + index, newTask);
+            tasks.push_back(newTask);
         }
     }
-
+    cout << "End" << endl;
+    inFile.close();
 }
 int Matrix::intbuilder(string inString){
     int outInt = 0;
@@ -106,7 +106,7 @@ int Matrix::binarySearch(int key, int left, int right){
         return binarySearch(key, left, middle);
     }
     else if(key > tasks[middle].getPriority()){
-        return binarySearch(key, middle, right);
+        return binarySearch(key, middle + 1, right);
     }
     else {
         return middle;
@@ -120,7 +120,7 @@ void Matrix::saveToFile(){
     for(int i = 0; i < tasks.size(); i++){
         outputString += tasks[i].toString();
     } 
-    outFile << outputString;   
+    outFile << outputString << endl;   
     outFile.close();
 }
 
