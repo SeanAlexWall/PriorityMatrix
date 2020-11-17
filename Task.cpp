@@ -11,9 +11,17 @@ Task::Task(string inName, string inDescription, Timeframe inTimeframe, time_t in
 
     setPriority();
 }
+Task::Task(const Task &t2){
+    name = t2.name;
+    description = t2.description;
+    timeframe = t2.timeframe;
+    dueDate = t2.dueDate;
+    priority = t2.priority;
+}
 
 //accessors
-int Task::getPriority(){ return priority; }
+int Task::getPriority() { return priority; }
+
 
 void Task::display(){
     tm* due = localtime(&dueDate);
@@ -55,9 +63,17 @@ string Task::toString(){
     outputString += to_string(timeframe);
     outputString += ",";
     outputString += to_string(dueDate);
-    outputString += ",";
+    outputString += ",\n";
 
     return outputString;
+}
+
+string Task::getName(){ return name; }
+string Task::getDescription(){ return description; }
+string Task::getTimeframe(){ return to_string(timeframe); }
+string Task::getDueDate(){
+    tm* due = localtime(&dueDate);
+    return (to_string(due->tm_mon + 1) + "/" + to_string(due->tm_mday) + "/" + to_string(due->tm_year + 1900));
 }
 
 //mutators
@@ -124,4 +140,18 @@ void Task::setPriority(){
                 break;
         }
     }
+}
+
+//operators
+Task& Task::operator=(const Task& t2){
+    name = t2.name;
+    description = t2.description;
+    timeframe = t2.timeframe;
+    dueDate = t2.dueDate;
+    setPriority();
+    return *this;
+}
+
+bool Task::operator<(const Task& t2){
+    return priority < t2.priority;
 }

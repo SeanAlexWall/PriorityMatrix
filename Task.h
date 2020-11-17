@@ -21,17 +21,27 @@ public:
   //Member Functions
     //Constructors
       //No Default Constructor
+      //Overloaded Constructor
       Task(string inName, string inDescription, Timeframe inTimeframe, time_t inDueDate);
-      //No Copy Constructor
+      //Copy Constructor
+      Task(const Task &t2);
     //Accessors
       int getPriority();
       void display();
       string toString();
       string getName();
+      string getDescription();
+      string getTimeframe();
+      string getDueDate();
+
     //Mutators
       void setDueDate(time_t inDueDate);
       void setName(string inName);
       void setDescription(string inDescription);
       void setTimeframe(Timeframe inTimeframe);
       void complete();
+
+    //operators
+      Task& operator=(const Task&);
+      bool operator< (const Task&);
 };

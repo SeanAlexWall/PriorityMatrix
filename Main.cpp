@@ -61,6 +61,7 @@ void mainMenu(Matrix* matrix){
                 break;
             case 'Q':
             case 'q':
+                matrix->saveToFile();
                 break;
             default:
                 cout << "Not a valid option" << endl;

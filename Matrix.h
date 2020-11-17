@@ -10,7 +10,6 @@ private:
     vector<Task> tasks;
   //Member Functions
     int binarySearch(int, int, int);
-    void saveToFile();
     int intbuilder(string);
 public:
   //Member Variables
@@ -30,4 +29,5 @@ public:
       void completeTask();
       void editTask();
       void showTasks();
+      void saveToFile();
 };

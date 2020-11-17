@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "Matrix.h"
 
 using namespace std;
@@ -14,7 +15,6 @@ Matrix::Matrix(){
     int infoNum = 0;
     if(inFile.is_open()){
         while(getline(inFile, line)){
-            cout << line << endl;
             for(int i = 0; i < line.length(); i++){
 
                 if(line[i] == ','){
@@ -25,17 +25,16 @@ Matrix::Matrix(){
                 else{
                     wordBuilder += line[i];
                 }
+
             }
             infoNum = 0;
             //Create new task;
             time_t newTime = intbuilder(taskInfo[3]);
-            cout << "Before new task" << endl;
             Task newTask(taskInfo[0], taskInfo[1], (Timeframe)((char)taskInfo[2][0] - '0'), newTime);
             //add to vector;
             tasks.push_back(newTask);
         }
     }
-    cout << "End" << endl;
     inFile.close();
 }
 int Matrix::intbuilder(string inString){
@@ -120,20 +119,108 @@ void Matrix::saveToFile(){
     for(int i = 0; i < tasks.size(); i++){
         outputString += tasks[i].toString();
     } 
-    outFile << outputString << endl;   
+    outFile << outputString;   
     outFile.close();
 }
 
 void Matrix::deleteTask(){
-
+    int choiceInt;
+    cout << "Delete which task?" << endl;
+    for(int i = 0; i < tasks.size(); i++){
+        cout << "* " << "[" << i << "] " << tasks[i].getName() << " *"<< endl; 
+    }
+    cin >> choiceInt;
+    tasks.erase(tasks.begin() + choiceInt);
+    saveToFile();
+    cout << "Deleted" << endl;
 }
 
 void Matrix::completeTask(){
-
+    
 }
 
 void Matrix::editTask(){
+    int choiceInt;
+    cout << "Edit which task?" << endl;
+    for(int i = 0; i < tasks.size(); i++){
+        cout << "* " << "[" << i << "] " << tasks[i].getName() << " *"<< endl; 
+    }
+    cin >> choiceInt;
+    int editInt;
+    Task editedTask(tasks[choiceInt]);
+    do{
+        cout << endl;
+        cout << "     Edit Task     " << endl;
+        cout << "*******************" << endl;
+        cout << "[0] Name: " << editedTask.getName() << endl;
+        cout << "[1] Description: " << editedTask.getDescription() << endl;
+        cout << "[2] Due Date: " << editedTask.getDueDate() << endl;
+        cout << "[3] Timeframe: " << editedTask.getTimeframe() << endl;
+        cout << "[4] Save" << endl;
+        cout << "[5] Cancel" << endl;
 
+        cout << " >> ";
+        cin >> editInt;
+
+        string inName;
+        string inDescription;
+        int inDay, inMonth, inYear;
+        time_t rawtime;
+        tm* timeinfo;
+        time_t inDueDate;
+        int intTF;
+        switch(editInt){
+            case 0:
+                cin.get();
+                cout << "Enter new Name >> ";
+                getline(cin, inName);
+                editedTask.setName(inName);
+                break;
+            case 1:
+                cin.get();
+                cout << "Enter new description" << endl;
+                getline(cin, inDescription);
+                editedTask.setDescription(inDescription);
+                break;
+            case 2:
+                cout << "Enter New Due Year >> ";
+                cin >> inYear;
+                cout << "Enter New Due Month >> ";
+                cin >> inMonth;
+                cout << "Enter New Due Day >> ";
+                cin >> inDay;
+                //Make date;
+                time(&rawtime);
+                timeinfo = localtime(&rawtime);
+                timeinfo->tm_year = inYear - 1900;
+                timeinfo->tm_mon = inMonth - 1;
+                timeinfo->tm_mday = inDay;
+                inDueDate = mktime(timeinfo);
+                editedTask.setDueDate(inDueDate);
+                break;
+            case 3:
+                cout << "About how long will it take?" << endl;
+                cout << "[0] Five Minutes, [1] Thirty Minutes, [2] An Hour/Hours, [3] A Day/Days" << endl;
+                cout << ">> ";
+                cin >> intTF;
+                editedTask.setTimeframe((Timeframe)intTF);
+                break;
+            case 4:
+                tasks[choiceInt] = editedTask;
+                std::sort(tasks.begin(), tasks.end());
+                saveToFile();
+                cout << "Saved";
+                break;
+            case 5:
+                cout << "Cancelled " << endl;
+                return;
+                break;
+            default:
+                break;
+        }
+        // cin.get();
+        // cin.get();
+    }while(!(editInt == 4 || editInt == 5));
 }
 
 void Matrix::showTasks(){
